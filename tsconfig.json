@@ -1,0 +1,12 @@
+{
+    "extends": "@tsconfig/create-react-app",
+    "compilerOptions": {
+      "baseUrl": "src",
+      "allowUnreachableCode": false,
+      "allowUnusedLabels": false,
+      "noImplicitAny": true,
+      "noUnusedParameters": true
+    },
+    "include": ["src/**/*"],
+    "exclude": ["node_modules"]
+}
