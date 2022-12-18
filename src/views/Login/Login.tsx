@@ -1,12 +1,23 @@
 import React from 'react';
+import { signInWithEmailAndPassword } from "firebase/auth";
 import { Box, Button, TextField, Typography, Link } from "@mui/material";
 import AuthLayout from 'layouts/authLayout';
+import FirebaseContext from 'contexts/FirebaseContext';
+import { TComponentWithAppProps } from 'types';
 
-const Login = () => {
+const Login = (props: TComponentWithAppProps) => {
+  const {appProps: {setIsAuthorised}} = props;
+
   const emailRef = React.useRef<HTMLInputElement>(null);
   const passwordRef = React.useRef<HTMLInputElement>(null);
+  
+  const {auth} = React.useContext(FirebaseContext);
 
-  const handleSubmit = () => {};
+  const handleSubmit = () => {
+    signInWithEmailAndPassword(auth, emailRef.current?.value || '', passwordRef.current?.value || '').then(() => {
+      setIsAuthorised(true);
+    }).catch((() => setIsAuthorised(false)));
+  };
   return (
     <AuthLayout title='Sign In'>
       <TextField
@@ -31,7 +42,7 @@ const Login = () => {
       </Box>
       <Box sx={{marginTop:'20px'}}>  
         <Button fullWidth variant="contained" onClick={() => handleSubmit}>Submit</Button> 
-        <Typography textAlign='center' marginTop='10px'>Haven't  Signed in yet? <Link href='/register'>Sign in</Link></Typography>
+        <Typography textAlign='center' marginTop='10px'>Haven't  Signed in yet? <Link href='/register'>Sign up</Link></Typography>
       </Box>
     </AuthLayout>
   )
